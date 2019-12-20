@@ -17,6 +17,6 @@ public interface TestModelMapper {
     @Select("select id,user_name userName,password,age, created_at createTime from test_model where user_name=#{userName} and password=#{password}")
     public DemoModel query(@Param("userName") String userName, @Param("password") String password);
 
-    @Select("select count(1) from test_model where user_name=#{userName}")
-    public Integer queryUserName(@Param("userName") String userName);
+    @Select("select id,user_name userName,password,age, created_at createTime  from test_model where user_name like CONCAT('%',#{userName},'%')")
+    public List<DemoModel> queryByUserName(@Param("userName") String userName);
 }

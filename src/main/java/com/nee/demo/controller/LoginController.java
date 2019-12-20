@@ -1,6 +1,7 @@
 package com.nee.demo.controller;
 
 import com.nee.demo.Main;
+import com.nee.demo.cache.UserCache;
 import com.nee.demo.orm.mapper.TestModelMapper;
 import com.nee.demo.orm.model.DemoModel;
 import com.nee.demo.view.Sample;
@@ -18,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 @FXMLController
@@ -62,8 +64,8 @@ public class LoginController implements Initializable {
             alert.showAndWait();
             return;
         }
-        int num = query.queryUserName(userNameStr);
-        if (num < 1) {
+        List<DemoModel> list = query.queryByUserName(userNameStr);
+        if (list.isEmpty()) {
             alert.setContentText("用户名错误，请检查用户名！");
             alert.showAndWait();
             return;
@@ -71,17 +73,18 @@ public class LoginController implements Initializable {
             DemoModel info = checkLogin(userNameStr, passwordStr);
             // 登录
             if (info != null) {
-//                FXMLLoader loader = new FXMLLoader(getClass().getResource("/static/fxml/sample.fxml"));
-//                GridPane startPane = loader.load();
-
-//                GUIState.getScene().setRoot(startPane);
+                //FXMLLoader loader = new FXMLLoader(getClass().getResource("/static/fxml/sample.fxml"));
+                //GridPane startPane = loader.load();
+                //GUIState.getScene().setRoot(startPane);
+//                GUIState.getScene().setRoot(successpage);
 //                GUIState.getStage().setWidth(1000);
 //                GUIState.getStage().setHeight(700);
 //                GUIState.getStage().setX(150);
 //                GUIState.getStage().setY(50);
 //                GUIState.getStage().setTitle("Hello World");
 //                GUIState.getStage().setResizable(true);
-
+                UserCache.setData(info);
+                //登录成功，跳转首页
                 Main.showView(Sample.class);
 
             } else {

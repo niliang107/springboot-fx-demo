@@ -1,6 +1,7 @@
 package com.nee.demo;
 
 import com.nee.demo.view.LoginView;
+import com.xwintop.xcore.util.javafx.AlertUtil;
 import de.felixroske.jfxsupport.AbstractJavaFxApplicationSupport;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -17,6 +18,14 @@ public class Main extends AbstractJavaFxApplicationSupport {
     @Override
     public void start(Stage stage) throws Exception {
         super.start(stage);
+        stage.setOnCloseRequest(event -> {
+            if (AlertUtil.showConfirmAlert("确定要退出吗？")) {
+                Platform.exit();
+                System.exit(0);
+            } else {
+                event.consume();
+            }
+        });
     }
 
     @Override
@@ -24,19 +33,5 @@ public class Main extends AbstractJavaFxApplicationSupport {
         stage.setTitle("Login");
         stage.setWidth(500);
         stage.setHeight(400);
-    }
-
-    //重启
-    public void relaunch() {
-        Platform.runLater(() -> {
-            getStage().close();
-            try {
-                this.stop();
-                this.init();
-                this.start(new Stage());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
     }
 }

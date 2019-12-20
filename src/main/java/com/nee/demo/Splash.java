@@ -35,6 +35,6 @@ public class Splash extends SplashScreen {
 
     @Override
     public boolean visible() {
-        return false;
+        return true;
     }
 }
